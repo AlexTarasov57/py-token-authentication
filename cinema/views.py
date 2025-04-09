@@ -36,7 +36,6 @@ class GenreViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
 
-
 class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
@@ -102,8 +101,6 @@ class MovieViewSet(viewsets.ModelViewSet):
 
         return MovieSerializer
 
-
-
     def get_permissions(self):
         if self.action in ("list", "retrieve", "create"):
             return (IsAuthenticated(),)
@@ -154,10 +151,7 @@ class OrderPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class OrderViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,):
+class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related(
         "tickets__movie_session__movie", "tickets__movie_session__cinema_hall"
     )
